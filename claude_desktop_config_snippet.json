@@ -1,0 +1,25 @@
+{
+  "_instructions": [
+    "1. Open: ~/Library/Application Support/Claude/claude_desktop_config.json",
+    "2. Merge the 'punji-metadata' block into the existing 'mcpServers' object.",
+    "   Do NOT replace the whole file — only add this entry.",
+    "3. Replace /absolute/path/to/server.py with the actual path to server.py on your machine.",
+    "4. Replace YOUR_YOUTUBE_API_KEY_HERE with your real YouTube Data API v3 key.",
+    "5. Replace python3 with the full path to your Python 3.10+ interpreter if needed.",
+    "   e.g. on macOS with system Python: /usr/bin/python3",
+    "       on macOS with Homebrew:      /opt/homebrew/bin/python3",
+    "6. Fully quit Claude Desktop (Cmd+Q) and reopen it.",
+    "7. On first use, call authenticate_youtube in the chat to complete OAuth setup."
+  ],
+  "mcpServers": {
+    "punji-metadata": {
+      "command": "python3",
+      "args": [
+        "/absolute/path/to/server.py"
+      ],
+      "env": {
+        "YOUTUBE_API_KEY": "YOUR_YOUTUBE_API_KEY_HERE"
+      }
+    }
+  }
+}

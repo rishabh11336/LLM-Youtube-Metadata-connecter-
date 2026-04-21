@@ -1,0 +1,38 @@
+# ── Sensitive credentials — NEVER commit these ────────────────
+.env
+token.json
+client_secrets.json
+
+# ── Claude Code local settings (may contain personal paths) ───────────────
+.claude/settings.local.json
+
+# ── Runtime logs (video operation logs) ──────────────────────
+logs/*
+!logs/.gitkeep
+
+# ── Update history log (can grow large) ──────────────────────
+.claude/UPDATE_LOG.md
+
+# ── Binary/media assets in channel_docs ──────────────────────
+channel_docs/*.pdf
+channel_docs/*.docx
+channel_docs/*.png
+channel_docs/*.jpg
+channel_docs/*.jpeg
+
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# ── macOS ─────────────────────────────────────────────────────
+.DS_Store
+*.DS_Store
