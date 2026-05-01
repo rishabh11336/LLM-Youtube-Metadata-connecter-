@@ -185,6 +185,14 @@ DESCRIPTION RULES:
 • Must NOT copy the title verbatim
 • Must NOT keyword stuff unnaturally
 • Language: Hindi + English naturally mixed
+• Must NOT include any analytics numbers — no subscriber count, view count,
+  like count, or comment count anywhere in the description.
+  Wrong: "With 102K subscribers and 85M views..."
+  Wrong: "This video has 50K views and 2K likes!"
+  Right: Describe the content and story only — never performance metrics.
+• Must NOT mention the video's length or duration anywhere in title, description, or tags.
+  Wrong: "Watch this 5 minute video", "In this 3:42 video...", "#shortvideo", "#longvideo"
+  Right: Never reference how long the video is — let viewers discover that themselves.
 
 ══════════════════════════════════════════════════════
 SOP — TAG RULES (15–20 TAGS)
@@ -198,6 +206,105 @@ SOP — TAG RULES (15–20 TAGS)
   - Niche: street dog india, labrador india, dog india
   - Long-tail: funny labrador reaction hindi, labrador daily life india
   - Channel: punji the labrador
+══════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════
+SEO OPTIMIZATION RULES — MANDATORY, APPLY ALONGSIDE BRAND SOP
+══════════════════════════════════════════════════════
+
+TITLE SEO RULES:
+• Primary keyword must appear in the first 40 characters
+  (YouTube truncates titles at ~55 chars on mobile search results)
+• Use high-intent power words naturally: "first time", "every day",
+  "real", "caught on camera", "you won't see this anywhere"
+• Numbers drive CTR: "3 साल में पहली बार..." — use when truthful
+• Questions drive CTR: "Does Punji really...?" — use when truthful
+• Format target: [Primary Keyword] — [Emotional Hook] [one emoji]
+• Test yourself: if someone searched this keyword, would they click this title?
+
+DESCRIPTION SEO RULES:
+• First 150 characters = "above the fold" on mobile (shown before "Show more")
+  These 150 chars MUST contain: the primary keyword + an emotional hook sentence
+  Wrong: "Welcome to Punji the Labrador channel. In this video..."
+  Right:  "Punji the Labrador had the cutest reaction when he saw..."
+• Repeat the primary keyword naturally 2-3 times in the first 500 characters
+• If video duration is longer than 60 seconds, ADD chapter timestamps:
+    00:00 Introduction
+    00:45 [Chapter name]
+    01:30 [Chapter name]
+    ...
+  Chapters are indexed by Google and YouTube as independent search results.
+  This alone can double discovery for long-form videos.
+• Add secondary and related keywords naturally in the Story/Context section
+• Do NOT keyword stuff — write for humans, not bots
+
+TAG SEO RULES:
+• Tag ORDER matters — YouTube weights the first 3 tags most heavily
+• Tag order must follow this sequence:
+    1st tag: most specific long-tail keyword (e.g. "labrador dog india hindi")
+    2nd tag: secondary specific keyword (e.g. "punji the labrador daily vlog")
+    3rd tag: broader category (e.g. "labrador india")
+    4th–14th: mix of broad, niche, emotion, and welfare tags
+    Last tag: always "punji the labrador" (channel brand anchor)
+• Every tag must be something a real person would type into YouTube search
+• Avoid tags that are too generic to rank for: "dog", "cute", "funny" alone
+  — pair them: "cute labrador india", "funny dog reaction hindi"
+
+══════════════════════════════════════════════════════
+CONTENT INFERENCE RULE — CRITICAL
+══════════════════════════════════════════════════════
+
+The channel owner (Mom) writes the video title herself in Hindi/English.
+That title is your PRIMARY and ONLY source of ground truth for the video's content.
+
+Rules:
+• NEVER ask for more information. Always generate complete metadata.
+• From the title alone, infer: the scene, the emotion, the story arc, the characters.
+• If transcript context is provided, use it to enrich — not contradict — the title.
+• If the title says "Punji ne pehli baar barish dekhi", infer:
+    Scene: outdoors, monsoon, first experience
+    Emotion: wonder, excitement, confusion
+    Story arc: Punji's innocent discovery of rain
+    Keywords: labrador in rain, dog first rain reaction india
+  Then write the full description as if you witnessed this moment.
+• Always generate. Never stall. The title tells you everything you need.
+
+══════════════════════════════════════════════════════
+LANGUAGE RULE — MANDATORY
+══════════════════════════════════════════════════════
+
+• ALL metadata (title, description, tags) must be in ENGLISH ONLY.
+• English must be simple, warm, and easy to understand for any audience.
+• Avoid complex vocabulary, formal writing, or academic tone.
+  Wrong: "Punji exhibits unprecedented enthusiasm upon encountering precipitation"
+  Right:  "Punji sees rain for the first time and can not stop jumping!"
+• Hindi words are NOT allowed anywhere in title, description, or tags.
+• Exception: proper nouns are fine — "Punji", "Rachna", "Mumbai", "Delhi"
+• The channel video itself is in Hindi — the metadata is in English.
+  This is intentional for maximum global + India English search reach.
+
+══════════════════════════════════════════════════════
+SHORTS METADATA RULE — CRITICAL FOR SHORT VIDEOS
+══════════════════════════════════════════════════════
+
+YouTube Shorts (videos 60 seconds or under) on this channel use BORROWED AUDIO
+from other creators — trending Bollywood songs, viral dialogue, popular sounds.
+
+This means:
+• The transcript of a Short = audio from another creator, NOT Punji's story
+• You must NEVER treat the transcript as the Short's story
+• You must use the transcript ONLY to extract: mood, emotion, tone, energy level
+
+The 80/20 rule for Shorts metadata:
+• 80% — from the title (what actually happens visually, Mom's creative intent)
+• 20% — from the audio transcript flavour (the emotional tone of the sound)
+
+How to apply the 20% flavour:
+• Audio is a sad Bollywood song about longing → weave loyalty, waiting, love into description
+• Audio is an energetic/hype track → make title and description feel exciting and fast
+• Audio is funny/comedic dialogue → keep tone light, playful, and humorous
+• Audio is a devotional/peaceful song → use calm, warm, heartwarming tone
+• NEVER copy audio lyrics into description or tags — flavour only, not content
 ══════════════════════════════════════════════════════
 """
 
@@ -417,6 +524,44 @@ def validate_metadata(title: str, description: str, tags: list[str]) -> list[str
             "Description must NOT copy the title verbatim. Rephrase the opening."
         )
 
+    # Must not include analytics numbers (e.g. "102K subscribers", "85M views", "50K views")
+    analytics_pattern = re.compile(
+        r"\b\d+(?:\.\d+)?[KkMmBb]\s*(?:subscribers?|views?|likes?|comments?)\b",
+        re.IGNORECASE,
+    )
+    if analytics_pattern.search(description):
+        violations.append(
+            "Description must NOT include analytics numbers (subscriber count, view count, "
+            "like count, or comment count). Remove phrases like '102K subscribers' or '50K views'."
+        )
+
+    # Must not mention video duration/length in title, description, or tags
+    duration_pattern = re.compile(
+        r"\b(?:this\s+)?(?:\d+\s*(?:minute|min|second|sec|hour|hr)s?\s*(?:video|clip|short)?|"
+        r"\d+:\d{2}(?:\s*(?:video|clip))?|"
+        r"(?:long|short)\s*video)\b",
+        re.IGNORECASE,
+    )
+    duration_tags = {"shortvideo", "longvideo", "shortfilm", "shortclip", "longvlog"}
+
+    if duration_pattern.search(title):
+        violations.append(
+            "Title must NOT mention video length or duration (e.g. '5 minute video', '3:42'). "
+            "Remove any reference to how long the video is."
+        )
+    if duration_pattern.search(description):
+        violations.append(
+            "Description must NOT mention video length or duration "
+            "(e.g. 'watch this 5 minute video', 'in this 3:42 video'). "
+            "Remove any reference to how long the video is."
+        )
+    for tag in tags:
+        if tag.lower().replace(" ", "") in duration_tags:
+            violations.append(
+                f"Tag '{tag}' references video length — remove it. "
+                "Never use tags like #shortvideo or #longvideo."
+            )
+
     # ── TAGS ───────────────────────────────────────────────────────────────
     n_tags = len(tags)
     if n_tags < MIN_TAGS:
@@ -449,6 +594,45 @@ def validate_metadata(title: str, description: str, tags: list[str]) -> list[str
             violations.append(f"Duplicate tag: '{tag}'")
             break
         seen.add(tag)
+
+    # ── SEO CHECKS ──────────────────────────────────────────────────────────
+
+    # Description: first 150 chars must not open with a generic phrase
+    first_150 = description[:150].lower().strip()
+    generic_openers = [
+        "welcome to",
+        "in this video",
+        "hello everyone",
+        "hi everyone",
+        "hey everyone",
+        "namaste",
+        "subscribe to",
+        "don't forget to",
+        "like and subscribe",
+    ]
+    for opener in generic_openers:
+        if first_150.startswith(opener):
+            violations.append(
+                f"SEO: Description starts with a generic opener: '{opener}'. "
+                "The first 150 characters are shown before 'Show more' on mobile. "
+                "Start with a keyword-rich emotional hook sentence instead. "
+                "Example: 'Punji the Labrador had the most adorable reaction when...'"
+            )
+            break
+
+    # Tags: first tag must NOT be a single generic word
+    overly_generic_single_tags = {
+        "dog", "dogs", "puppy", "puppies", "cute", "funny",
+        "animal", "animals", "pet", "pets", "vlog", "video",
+        "india", "hindi"
+    }
+    if tags and tags[0].lower().strip() in overly_generic_single_tags:
+        violations.append(
+            f"SEO: First tag '{tags[0]}' is too generic to rank for. "
+            "YouTube weights the first 3 tags most. "
+            "Put your most specific long-tail keyword first. "
+            "Example: 'labrador dog india hindi' instead of just 'dog'."
+        )
 
     return violations
 
@@ -637,6 +821,422 @@ def fetch_video_data(video_url: str) -> str:
         CHANNEL_SOP,
     ]
     return "\n".join(lines)
+
+
+@mcp.tool()
+def fetch_trending_keywords(seed_keyword: str) -> str:
+    """
+    Fetch trending YouTube search suggestions for a seed keyword.
+
+    Queries YouTube's autocomplete endpoint (no API key needed) using
+    multiple suffix variations to capture a broad range of trending terms.
+    Use this BEFORE generating metadata to find what real users are searching.
+
+    Args:
+        seed_keyword: A short topic phrase. Examples:
+                      "labrador dog india", "cute dog hindi vlog",
+                      "street dog rescue india", "labrador funny reaction"
+
+    Returns:
+        Up to 30 unique trending search terms ranked by YouTube's own
+        autocomplete algorithm. Use the most relevant ones naturally in
+        title (first 40 chars), description (first 500 chars), and tags.
+    """
+    import urllib.request
+    import urllib.parse
+
+    suffixes = [
+        "",
+        " a", " b", " c", " d",
+        " how", " why", " what", " when",
+        " india", " hindi", " 2024", " 2025",
+        " क", " ल", " म",
+    ]
+
+    suggestions = []
+    seen = set()
+
+    for suffix in suffixes:
+        query = urllib.parse.quote(seed_keyword + suffix)
+        url = (
+            f"https://suggestqueries.google.com/complete/search"
+            f"?client=youtube&ds=yt&q={query}"
+        )
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=5) as response:
+                raw = response.read().decode("utf-8")
+                import json as _json
+                data = _json.loads(raw)
+                terms = [item[0] for item in data[1] if isinstance(item, list) and item]
+                for term in terms:
+                    if term not in seen:
+                        seen.add(term)
+                        suggestions.append(term)
+        except Exception as e:
+            logger.warning("Keyword fetch failed for suffix '%s': %s", suffix, e)
+            continue
+
+    top_suggestions = suggestions[:30]
+
+    if not top_suggestions:
+        return (
+            f"No trending keywords found for '{seed_keyword}'.\n"
+            "Possible reason: network timeout or YouTube blocked the request.\n"
+            "Proceed with metadata generation using the title and SOP rules."
+        )
+
+    formatted = "\n".join(f"  {i+1:02d}. {s}" for i, s in enumerate(top_suggestions))
+    sep = "═" * 60
+
+    return (
+        f"{sep}\n"
+        f"TRENDING KEYWORDS for: '{seed_keyword}'\n"
+        f"{sep}\n"
+        f"{formatted}\n"
+        f"{sep}\n\n"
+        "INSTRUCTION FOR CLAUDE:\n"
+        "  • Pick 2-3 of the most relevant terms above.\n"
+        "  • Weave them naturally into the title (first 40 chars) and\n"
+        "    the first 500 chars of the description.\n"
+        "  • Add the most relevant ones as tags (respecting SOP tag rules).\n"
+        "  • Do NOT force irrelevant keywords in just because they ranked.\n"
+        "  • These are real searches real people are making right now."
+    )
+
+
+@mcp.tool()
+def analyze_competitor_video(video_url: str) -> str:
+    """
+    Fetch and analyze metadata from a top-ranking or competitor YouTube video.
+
+    Use this to benchmark what is working for high-performing videos in the
+    same niche. Pass in the URL of a video that ranks well for your target
+    keyword. Claude will compare its generated metadata against this benchmark.
+
+    This tool is READ-ONLY. It does not modify any video.
+
+    Args:
+        video_url: Full YouTube URL or bare 11-character video ID of any
+                   publicly accessible video to analyze.
+
+    Returns:
+        Structured analysis: title length, tag count, description structure,
+        whether chapters exist, opening line, and a calibration instruction.
+    """
+    video_id = extract_video_id(video_url)
+    if not video_id:
+        return (
+            f"ERROR: Could not extract a YouTube video ID from: '{video_url}'\n"
+            "Accepted formats: youtube.com/watch?v=ID, youtu.be/ID, "
+            "youtube.com/shorts/ID, or a bare 11-character video ID."
+        )
+
+    logger.info("analyze_competitor_video: %s", video_id)
+
+    try:
+        data = get_video_data(video_id)
+    except ValueError as e:
+        return f"ERROR (Video not found): {e}"
+    except RuntimeError as e:
+        return f"ERROR (YouTube API): {e}"
+
+    description = data.get("description", "")
+    tags = data.get("tags", [])
+    title = data.get("title", "")
+
+    has_chapters = "00:00" in description
+
+    desc_opening = description[:200].strip()
+    if len(description) > 200:
+        desc_opening += "..."
+
+    tags_display = ", ".join(tags[:10])
+    if len(tags) > 10:
+        tags_display += f" ... (+{len(tags) - 10} more)"
+
+    try:
+        views_fmt = f"{int(data['view_count']):,}"
+    except (ValueError, TypeError):
+        views_fmt = data.get("view_count", "N/A")
+
+    sep = "═" * 60
+    thin = "─" * 60
+
+    return (
+        f"{sep}\n"
+        f"COMPETITOR VIDEO ANALYSIS\n"
+        f"{sep}\n"
+        f"URL        : https://youtube.com/watch?v={video_id}\n"
+        f"Views      : {views_fmt}\n"
+        f"Likes      : {data.get('like_count', 'N/A')}\n"
+        f"Comments   : {data.get('comment_count', 'N/A')}\n"
+        f"{thin}\n"
+        f"TITLE ({len(title)} chars):\n"
+        f"  {title}\n"
+        f"{thin}\n"
+        f"TAGS ({len(tags)} total):\n"
+        f"  First 3 (highest weight): {', '.join(tags[:3]) if tags else 'none'}\n"
+        f"  All visible: {tags_display}\n"
+        f"{thin}\n"
+        f"DESCRIPTION ({len(description)} chars):\n"
+        f"  Has chapters (00:00): {'YES — boosts search indexing' if has_chapters else 'NO'}\n"
+        f"  Opening (first 200 chars):\n"
+        f"    {desc_opening}\n"
+        f"{sep}\n\n"
+        "CALIBRATION INSTRUCTION FOR CLAUDE:\n"
+        "  • Your generated title should be comparable in length and keyword placement.\n"
+        "  • Match or exceed their tag count (within SOP limits of 15-20).\n"
+        "  • If they have chapters and your video is long-form, you must also add chapters.\n"
+        "  • Your description opening must be as strong or stronger than theirs.\n"
+        "  • Do NOT copy their title, tags, or description — use this for structure only."
+    )
+
+
+@mcp.tool()
+def fetch_transcript(video_url: str) -> str:
+    """
+    Fetch and translate the transcript of a YouTube video for metadata context.
+
+    Behavior differs based on video duration:
+
+    LONG-FORM (> 60 seconds):
+        Fetches Hindi auto-captions and translates them to English.
+        Returns the translated transcript as full story context.
+        Claude should use this to write accurate, specific metadata.
+
+    SHORTS (<= 60 seconds):
+        This channel's Shorts use BORROWED AUDIO from other creators
+        (Bollywood songs, viral sounds, trending dialogue).
+        The transcript = that borrowed audio, NOT Punji's visual story.
+        Tool still fetches the transcript but labels it as "audio flavour only".
+        Claude must apply the 80/20 rule:
+            80% metadata from the title (Mom's creative intent)
+            20% emotional flavour extracted from the audio transcript
+
+    In both cases, if no transcript is available, returns a clear message
+    instructing Claude to generate from title only.
+
+    Args:
+        video_url: YouTube video URL (any format) or bare 11-character video ID.
+
+    Returns:
+        Translated transcript with clear labelling and instructions for Claude,
+        or a fallback message if transcript is unavailable.
+    """
+    try:
+        from youtube_transcript_api import (
+            YouTubeTranscriptApi,
+            NoTranscriptFound,
+            TranscriptsDisabled,
+        )
+    except ImportError:
+        return (
+            "ERROR: youtube-transcript-api is not installed.\n"
+            "Run: pip install youtube-transcript-api\n"
+            "Then restart the MCP server."
+        )
+
+    video_id = extract_video_id(video_url)
+    if not video_id:
+        return (
+            f"ERROR: Could not extract a YouTube video ID from: '{video_url}'\n"
+            "Accepted formats: youtube.com/watch?v=ID, youtu.be/ID, "
+            "youtube.com/shorts/ID, or a bare 11-character video ID."
+        )
+
+    logger.info("fetch_transcript: %s", video_id)
+
+    try:
+        data = get_video_data(video_id)
+    except Exception as e:
+        return f"ERROR: Could not fetch video data to check duration: {e}"
+
+    duration_iso = data.get("duration", "")
+    video_title = data.get("title", "")
+
+    total_seconds = 0
+    h_match = re.search(r"(\d+)H", duration_iso)
+    m_match = re.search(r"(\d+)M", duration_iso)
+    s_match = re.search(r"(\d+)S", duration_iso)
+    if h_match:
+        total_seconds += int(h_match.group(1)) * 3600
+    if m_match:
+        total_seconds += int(m_match.group(1)) * 60
+    if s_match:
+        total_seconds += int(s_match.group(1))
+
+    is_short = 0 < total_seconds <= 60
+
+    sep = "═" * 60
+    thin = "─" * 60
+
+    transcript_text = None
+    transcript_source = None
+
+    try:
+        transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+
+        try:
+            transcript_obj = transcript_list.find_transcript(["hi"])
+            try:
+                translated = transcript_obj.translate("en")
+                segments = translated.fetch()
+                transcript_source = "Hindi → English (auto-translated)"
+            except Exception:
+                segments = transcript_obj.fetch()
+                transcript_source = "Hindi (raw — translation unavailable)"
+        except NoTranscriptFound:
+            try:
+                transcript_obj = transcript_list.find_generated_transcript(["hi", "en", "hi-IN"])
+                segments = transcript_obj.fetch()
+                transcript_source = f"Auto-generated ({transcript_obj.language})"
+            except Exception:
+                segments = None
+
+        if segments:
+            raw_text = " ".join(
+                seg["text"] for seg in segments
+                if isinstance(seg, dict) and seg.get("text")
+            )
+            raw_text = re.sub(r"\[.*?\]", "", raw_text)
+            raw_text = re.sub(r"\s+", " ", raw_text).strip()
+            transcript_text = raw_text
+
+    except TranscriptsDisabled:
+        transcript_text = None
+        transcript_source = "DISABLED"
+    except NoTranscriptFound:
+        transcript_text = None
+        transcript_source = "NOT_FOUND"
+    except Exception as e:
+        logger.warning("Transcript fetch failed for %s: %s", video_id, e)
+        transcript_text = None
+        transcript_source = f"ERROR: {e}"
+
+    if is_short:
+        response_parts = [
+            sep,
+            "SHORTS DETECTED",
+            sep,
+            f"Video ID  : {video_id}",
+            f"Duration  : {total_seconds}s (≤ 60s = YouTube Short)",
+            f"Title (Mom's intent — 80% weight):",
+            f"  {video_title}",
+            thin,
+        ]
+
+        if transcript_text:
+            flavour = transcript_text[:800]
+            if len(transcript_text) > 800:
+                flavour += "... [trimmed]"
+
+            response_parts += [
+                f"BORROWED AUDIO TRANSCRIPT — FLAVOUR ONLY (20% weight):",
+                f"Source: {transcript_source}",
+                thin,
+                flavour,
+                thin,
+                "",
+                "INSTRUCTION FOR CLAUDE — READ CAREFULLY:",
+                "  This Short uses borrowed audio from another YouTube creator.",
+                "  The transcript above is that creator's audio, NOT Punji's story.",
+                "",
+                "  DO NOT:",
+                "  • Treat the transcript as what the video is about",
+                "  • Copy any audio lyrics or dialogue into the description",
+                "  • Use audio character names, places, or plot in metadata",
+                "",
+                "  DO:",
+                "  • Extract the MOOD and EMOTION from the audio",
+                "  • Apply that mood as a 20% flavour to the metadata tone",
+                "  • Build 80% of metadata from the title (Mom's intent above)",
+                "",
+                "  HOW TO READ THE AUDIO FLAVOUR:",
+                "  • Sad/longing song → weave loyalty, waiting, unconditional love into description",
+                "  • Energetic/hype audio → make title and description feel exciting, fast-paced",
+                "  • Funny/comedic dialogue → keep tone light, playful, humorous",
+                "  • Devotional/peaceful song → use calm, warm, heartwarming tone",
+                "  • Romantic song → weave themes of loyalty, bond, love between Punji and family",
+                "",
+                "  EXAMPLE:",
+                "  Title: 'Punji waiting at the door'",
+                "  Audio: sad longing Bollywood song about missing someone",
+                "  Result: description tone = longing, loyalty, 'waiting for the one person...'",
+                "          NOT a description of the song's story",
+                sep,
+            ]
+        else:
+            no_transcript_reason = {
+                "DISABLED": "Transcripts are disabled for this video.",
+                "NOT_FOUND": "No transcript found — video may not have auto-captions yet.",
+            }.get(transcript_source, f"Transcript unavailable: {transcript_source}")
+
+            response_parts += [
+                f"BORROWED AUDIO TRANSCRIPT: Not available",
+                f"Reason: {no_transcript_reason}",
+                thin,
+                "INSTRUCTION FOR CLAUDE:",
+                "  No audio transcript is available for this Short.",
+                "  Generate metadata from the title only (100% title-driven).",
+                "  Apply standard SOP + SEO rules.",
+                sep,
+            ]
+
+        return "\n".join(response_parts)
+
+    else:
+        response_parts = [
+            sep,
+            "LONG-FORM VIDEO TRANSCRIPT",
+            sep,
+            f"Video ID : {video_id}",
+            f"Duration : {duration_iso} ({total_seconds}s)",
+            f"Title    : {video_title}",
+            thin,
+        ]
+
+        if transcript_text:
+            trimmed = transcript_text[:2000]
+            if len(transcript_text) > 2000:
+                trimmed += "\n... [transcript trimmed at 2000 chars for context budget]"
+
+            response_parts += [
+                f"TRANSCRIPT ({transcript_source}):",
+                thin,
+                trimmed,
+                thin,
+                "",
+                "INSTRUCTION FOR CLAUDE:",
+                "  • Use this transcript as the primary story context for metadata.",
+                "  • The transcript reflects what actually happens in the video.",
+                "  • Do NOT copy transcript lines verbatim into the description.",
+                "  • Rephrase naturally — write as if you witnessed the moment.",
+                "  • Extract: key events, emotional moments, people/dogs mentioned,",
+                "    locations, and any specific activities or firsts.",
+                "  • Use these details to write a specific, accurate description",
+                "    (not generic filler about 'Punji's day').",
+                sep,
+            ]
+        else:
+            no_transcript_reason = {
+                "DISABLED": "Transcripts are disabled for this video.",
+                "NOT_FOUND": "No transcript found — video may not have auto-captions yet.",
+            }.get(transcript_source, f"Transcript unavailable: {transcript_source}")
+
+            response_parts += [
+                "TRANSCRIPT: Not available",
+                f"Reason: {no_transcript_reason}",
+                thin,
+                "INSTRUCTION FOR CLAUDE:",
+                "  No transcript is available for this video.",
+                "  Generate metadata from the video title only.",
+                "  Apply the Content Inference Rule from the SOP:",
+                "  infer scene, emotion, story arc, and keywords from the title alone.",
+                sep,
+            ]
+
+        return "\n".join(response_parts)
 
 
 @mcp.tool()
